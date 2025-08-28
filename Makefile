@@ -18,7 +18,7 @@ SOURCES = $(SRCDIR)/sort.c
 TARGET = $(BUILDDIR)/sort.elf
 
 # Compiler flags
-CFLAGS += -O2 -Wall -Wextra -march=armv7-a
+CFLAGS += -O2 -Wall -Wextra -march=armv7-a+fp -mfloat-abi=hard
 LDFLAGS = 
 
 # Default target
