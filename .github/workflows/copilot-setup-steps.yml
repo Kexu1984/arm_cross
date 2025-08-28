@@ -1,0 +1,22 @@
+name: Copilot Setup Steps
+on:
+  push:
+    paths: [.github/workflows/copilot-setup-steps.yml]
+  workflow_dispatch:
+
+jobs:
+  copilot-setup-steps: # 名称必须完全匹配
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ARMv7 cross toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential make file \
+            gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf \
+            binutils-arm-linux-gnueabihf
+      - name: Show toolchain versions
+        run: |
+          arm-linux-gnueabihf-gcc -v
+          arm-linux-gnueabihf-readelf --version
