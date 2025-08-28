@@ -1,0 +1,6 @@
+{
+  "name": "armv7-cross",
+  "build": { "dockerfile": "Dockerfile" },
+  "postCreateCommand": "bash .devcontainer/bootstrap.sh",
+  "customizations": { "vscode": { "extensions": ["github.copilot"] } }
+}
