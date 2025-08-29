@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uart-terminal"
+version = "1.0.0"
+description = "Interactive UART terminal for Unicorn Cortex-M simulation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "UART Terminal", email = "uart@example.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Embedded Systems",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "pyserial>=3.5",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.20",
+]
+lint = [
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Kexu1984/arm_cross"
+Repository = "https://github.com/Kexu1984/arm_cross"
+Issues = "https://github.com/Kexu1984/arm_cross/issues"
+
+[project.scripts]
+uart-term = "uart_terminal.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["uart_terminal*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+ignore = ["E501"]  # Line too long (handled by formatter)
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+addopts = [
+    "-v",
+    "--tb=short",
+]
