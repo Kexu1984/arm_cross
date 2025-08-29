@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, copilot/fix-5 ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
+        test-subset: ["all", "no-serial"]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest pytest-asyncio pyserial typing-extensions
+        
+    - name: Run tests (all)
+      if: matrix.test-subset == 'all'
+      run: |
+        pytest -v
+        
+    - name: Run tests (no serial)
+      if: matrix.test-subset == 'no-serial' 
+      run: |
+        pytest -v -k "not serial"
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install ruff
+        
+    - name: Lint with ruff
+      run: |
+        ruff check uart_terminal/ examples/ tests/ --select E,W,F
